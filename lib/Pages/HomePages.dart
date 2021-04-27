@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farming_app/Provider/Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_app/Language/Langguage.dart';
 import 'package:farming_app/Pages/FilterList/DepositFilterList.dart';
@@ -7,11 +8,13 @@ import 'package:farming_app/Variables/Variables.dart';
 import 'package:farming_app/Widgets/SummaryWidget.dart';
 import 'package:intl/intl.dart';
 import 'package:farming_app/Widgets/myDrawer.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  String appBarName;
-  HomePage({this.appBarName});
+  int depositAmount;
+  int expenseAmount;
+  HomePage({this.depositAmount, this.expenseAmount});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -81,6 +84,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     var _crossAxisSpacing = 8;
     var _screenWidth = MediaQuery.of(context).size.width;
     var _crossAxisCount = 3;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farming_app/Pages/Authentication/SignUpForm.dart';
+import 'package:farming_app/Pages/Authentication/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_app/Pages/HomePages.dart';
 import 'package:farming_app/Variables/Variables.dart';
@@ -13,33 +14,29 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var farmInfoDoc = "FarmInfoDoc";
+  Color color = Colors.white;
   @override
-
-  void initState()  {
-
+  void initState() {
     super.initState();
 
+    Timer(Duration(seconds: 3), () async {
+      Variables.to.prefss = await SharedPreferences.getInstance();
 
-      Timer(
-          Duration(seconds: 3),
-          () async {
+      Variables.collectionNameID = Variables.to.prefss.getString("Login_Token");
+      print("${Variables.collectionNameID}");
+      print("${Variables.depositAmount}");
+      setState(() {
+        color = color == Colors.white ? Colors.grey : Colors.white;
+      });
+      Variables.to.prefss.getString("Login_Token") == null
+          ? Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
+          :
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
 
-            Variables.to.prefss = await SharedPreferences.getInstance();
 
-            Variables.collectionNameID = Variables.to.prefss.getString("Login_Token");
-
-         Variables.to.prefss.getString("Login_Token") == null
-            ? Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-            builder: (context) =>SignUpForm()))
-
-                : Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-            builder: (context) => HomePage()));
-          }
-             );
+    });
 
 
   }
@@ -59,52 +56,29 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 250,
-            width: 250,
-            child: Image(
-              image: AssetImage("assets/icons/wallet.png"),
+          GestureDetector(
+            onTap: () {
+              setState(() {});
+            },
+            child: Container(
+              height: 250,
+              width: 250,
+              child: Image(
+                image: AssetImage("assets/icons/wallet.png"),
+              ),
             ),
           ),
-          StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("AllFarm")
-                  .doc("AllFarmDoc")
-                  .collection("${Variables.collectionNameID}")
-                  .doc("DepositDoc")
-                  .collection("Deposit")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-                final documents = snapshot.data.docs;
-                Variables.depositAmount = documents.fold(
-                    0, (s, n) => s + int.parse(n['memberAmount'].toString()));
 
-                return Text("Total Deposit: ${Variables.depositAmount}");
-              }),
-          StreamBuilder<QuerySnapshot>(
-              stream:FirebaseFirestore.instance
-                  .collection("AllFarm")
-                  .doc("AllFarmDoc")
-                  .collection("${Variables.collectionNameID}")
-                  .doc("expenseDoc")
-                  .collection("Expense")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-                final documents = snapshot.data.docs;
-                Variables.expenseAmount = documents.fold(
-                    0, (s, n) => s + int.parse(n['amount'].toString()));
 
-                return Center(
-                    child: Text(
-                  "Total: ${Variables.expenseAmount}",
-                  style: TextStyle(fontSize: 8, color: Colors.blue),
-                ));
-              }),
         ],
       ),
     );
   }
+@override
+  void setState(fn) {
 
+    super.setState(fn);
+  }
+  var depositAmount;
+  var expenseAmount;
 }

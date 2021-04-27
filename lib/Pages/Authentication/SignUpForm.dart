@@ -259,7 +259,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
       Variables.to.prefss.setString("Appbar", appBar);
       Variables.appBarName = Variables.to.prefss.getString("Appbar");
-      Route route = MaterialPageRoute(builder: (c) => HomePage(appBarName: farmName,));
+      Route route = MaterialPageRoute(builder: (c) => HomePage());
       Navigator.pushReplacement(context, route);
 
   }

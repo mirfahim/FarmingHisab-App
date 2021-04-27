@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farming_app/Provider/Provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:farming_app/Language/Langguage.dart';
 import 'package:farming_app/Variables/Variables.dart';
 import 'package:farming_app/Widgets/myDrawer.dart';
+import 'package:provider/provider.dart';
 
 import '../HomePages.dart';
 
@@ -208,6 +210,8 @@ var selectIndex;
                     .collection("${Variables.collectionNameID}").doc(docID).collection("Expense")
                     .snapshots(),
                 builder: (context, snapshot) {
+                  var notifyCounter = Provider.of<ProviderServicePage>(context, listen: false);
+                  notifyCounter.sumAmount();
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.docs.length,

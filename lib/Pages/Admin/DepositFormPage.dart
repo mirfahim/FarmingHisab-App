@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farming_app/Provider/Provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,7 @@ import 'package:farming_app/Language/Langguage.dart';
 import 'package:farming_app/Pages/HomePages.dart';
 import 'package:farming_app/Variables/Variables.dart';
 import 'package:farming_app/Widgets/myDrawer.dart';
+import 'package:provider/provider.dart';
 
 class FormPage extends StatefulWidget {
   FormPage({Key key, this.title}) : super(key: key);
@@ -185,6 +187,7 @@ class _MyHomePageState extends State<FormPage> {
               ElevatedButton(
                   onPressed: () {
                     createData();
+
                   },
                   child: Text("Create")),
               ElevatedButton(
@@ -241,6 +244,8 @@ class _MyHomePageState extends State<FormPage> {
                     .collection("Deposit")
                     .snapshots(),
                 builder: (context, snapshot) {
+                  var notifyCounter = Provider.of<ProviderServicePage>(context, listen: false);
+                  notifyCounter.sumAmount();
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.docs.length,
@@ -347,6 +352,7 @@ class _MyHomePageState extends State<FormPage> {
       documentReference.set(memberInfo).whenComplete(() {
         print("$memberName created ki hoiche");
       });
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -354,6 +360,7 @@ class _MyHomePageState extends State<FormPage> {
           duration: Duration(seconds: 2),
         ),
       );
+
     }
   }
 
