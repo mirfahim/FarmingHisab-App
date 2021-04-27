@@ -105,11 +105,12 @@ class _PaymentState extends State<Payment> {
     if ( documents.length > 0){
 
       DocumentReference documentReference =
-      FirebaseFirestore.instance.collection("AllFarm").doc("${Variables.collectionNameID}").collection("${Variables.collectionNameID}").doc(docID);
+      FirebaseFirestore.instance.collection("AllFarm").doc("${"AllFarmDoc"}").collection("${Variables.collectionNameID}").doc(docID);
       Map<String, dynamic> memberInfo = {
         "mobile": mobileNo,
         "trexID": trexId,
         "amount": amount,
+
         "date": DateTime.now(),
       };
       documentReference.set(memberInfo).whenComplete(() {

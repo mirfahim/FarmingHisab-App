@@ -85,13 +85,15 @@ class _SignUpFormState extends State<UserLogin> {
                   children: [
                     ElevatedButton(
                         onPressed: ()async {
-
+                          print("__IDDDDDDDDDD____$farmID");
+                             Variables.collectionNameID = farmID;
+                            print("__IDDDDDDDDDD____${Variables.collectionNameID}");
                           final QuerySnapshot result =
-                          await FirebaseFirestore.instance.collection('KaziFarm').doc(farmID).collection(farmID).where('userName', isEqualTo:
+                          await FirebaseFirestore.instance.collection('AllFarm').doc("AllFarmDoc").collection(Variables.collectionNameID).doc("FarmInfoDoc").collection("user").where('name', isEqualTo:
                           email).get();
 
                           final List < DocumentSnapshot > documents = result.docs;
-
+                            print("__IDDDDDDDDDD____$farmID");
 
                           if ( documents.length > 0){
                             Route route = MaterialPageRoute(builder: (c) => HomePage());

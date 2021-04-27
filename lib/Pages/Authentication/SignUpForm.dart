@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farming_app/Pages/Authentication/PaymentConfirm.dart';
 import 'package:farming_app/Variables/Variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -245,6 +246,7 @@ class _SignUpFormState extends State<SignUpForm> {
         "adminName": adminName,
         "district": district,
         "role": "admin",
+        "payment": "pending",
         "date": DateTime.now(),
       };
       documentReference.set(memberInfo).whenComplete(() {
@@ -259,7 +261,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
       Variables.to.prefss.setString("Appbar", appBar);
       Variables.appBarName = Variables.to.prefss.getString("Appbar");
-      Route route = MaterialPageRoute(builder: (c) => HomePage());
+      Route route = MaterialPageRoute(builder: (c) => Payment());
       Navigator.pushReplacement(context, route);
 
   }
